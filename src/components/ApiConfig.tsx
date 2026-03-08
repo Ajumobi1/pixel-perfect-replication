@@ -34,8 +34,7 @@ const ApiConfig = () => {
         >
           <Settings className="w-4 h-4" />
         </Button>
-          <Settings className="w-4 h-4" />
-        </Button>
+      </div>
       </div>
 
       {open && (
