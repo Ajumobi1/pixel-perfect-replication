@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Wand2, Loader2, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { humanizeText, type HumanizeResult } from "@/lib/api";
+import { humanizeText, isDemoMode, type HumanizeResult } from "@/lib/api";
 
 const TextHumanizer = () => {
   const [text, setText] = useState("");
@@ -103,6 +103,11 @@ const TextHumanizer = () => {
                 <span>Words used: {result.words_used}</span>
                 <span>Remaining: {result.words_remaining}</span>
               </div>
+              {isDemoMode() && (
+                <p className="mt-2 text-xs text-muted-foreground/70 italic border-t border-border/30 pt-2">
+                  ⚡ Demo result — connect a real API for actual humanization
+                </p>
+              )}
             </div>
           </motion.div>
         )}
