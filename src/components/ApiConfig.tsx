@@ -35,7 +35,6 @@ const ApiConfig = () => {
           <Settings className="w-4 h-4" />
         </Button>
       </div>
-      </div>
 
       {open && (
         <div className="fixed top-14 right-4 z-50 glass glow-border rounded-lg p-4 w-80">
