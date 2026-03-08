@@ -25,12 +25,15 @@ const ApiConfig = () => {
             <Zap className="w-3 h-3" /> Demo Mode
           </span>
         )}
+        <ThemeToggle />
         <Button
           variant="ghost"
           size="sm"
           onClick={() => setOpen(!open)}
           className="text-muted-foreground hover:text-foreground"
         >
+          <Settings className="w-4 h-4" />
+        </Button>
           <Settings className="w-4 h-4" />
         </Button>
       </div>
