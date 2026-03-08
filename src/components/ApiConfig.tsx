@@ -3,6 +3,7 @@ import { Settings, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getApiBase, setApiBase, isDemoMode, setDemoMode } from "@/lib/api";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const ApiConfig = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ const ApiConfig = () => {
             <Zap className="w-3 h-3" /> Demo Mode
           </span>
         )}
+        <ThemeToggle />
         <Button
           variant="ghost"
           size="sm"
