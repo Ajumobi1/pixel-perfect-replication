@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ScanSearch, Loader2, AlertTriangle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { detectText, type DetectionResult } from "@/lib/api";
+import { detectText, isDemoMode, type DetectionResult } from "@/lib/api";
 
 const TextDetector = () => {
   const [text, setText] = useState("");

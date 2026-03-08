@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Wand2, Loader2, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { humanizeText, type HumanizeResult } from "@/lib/api";
+import { humanizeText, isDemoMode, type HumanizeResult } from "@/lib/api";
 
 const TextHumanizer = () => {
   const [text, setText] = useState("");
