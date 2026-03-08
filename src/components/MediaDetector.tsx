@@ -157,6 +157,11 @@ const MediaDetector = () => {
               <span className="font-display font-bold text-foreground">{result.result}</span>
               <span className="ml-auto text-sm text-muted-foreground font-display">{result.confidence} confidence</span>
             </div>
+            {isDemoMode() && (
+              <p className="mt-2 text-xs text-muted-foreground/70 italic border-t border-border/30 pt-2">
+                ⚡ Demo result — connect a real API for accurate deepfake detection
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -99,6 +99,11 @@ const TextDetector = () => {
                 {result.confidence} confidence
               </span>
             </div>
+            {isDemoMode() && (
+              <p className="mt-2 text-xs text-muted-foreground/70 italic border-t border-border/30 pt-2">
+                ⚡ Demo result — connect a real API for accurate detection
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
