@@ -4,8 +4,10 @@ import { ScanSearch, Loader2, AlertTriangle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { detectText, isDemoMode, type DetectionResult } from "@/lib/api";
+import { useHistory } from "@/components/HistoryContext";
 
 const TextDetector = () => {
+  const { addEntry } = useHistory();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DetectionResult | null>(null);
