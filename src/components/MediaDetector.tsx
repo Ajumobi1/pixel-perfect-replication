@@ -7,6 +7,7 @@ import { detectMedia, isDemoMode, type DetectionResult } from "@/lib/api";
 const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/quicktime", "video/x-msvideo", "video/webm"];
 
 const MediaDetector = () => {
+  const { addEntry } = useHistory();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
