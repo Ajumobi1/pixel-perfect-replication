@@ -4,8 +4,10 @@ import { Wand2, Loader2, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { humanizeText, isDemoMode, type HumanizeResult } from "@/lib/api";
+import { useHistory } from "@/components/HistoryContext";
 
 const TextHumanizer = () => {
+  const { addEntry } = useHistory();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<HumanizeResult | null>(null);
