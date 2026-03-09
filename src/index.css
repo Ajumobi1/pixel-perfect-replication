@@ -170,7 +170,7 @@
     animation: scan 4s ease-in-out infinite;
   }
   .hover-lift {
-    @apply transition-all duration-400;
+    @apply transition-all duration-300;
   }
   .hover-lift:hover {
     transform: translateY(-3px);
