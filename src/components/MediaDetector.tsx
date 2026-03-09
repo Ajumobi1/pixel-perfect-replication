@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Upload, Loader2, AlertTriangle, CheckCircle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { detectMedia, isDemoMode, type DetectionResult } from "@/lib/api";
+import { useHistory } from "@/components/HistoryContext";
 
 const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/quicktime", "video/x-msvideo", "video/webm"];
 
 const MediaDetector = () => {
+  const { addEntry } = useHistory();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,12 @@ const MediaDetector = () => {
     try {
       const res = await detectMedia(file);
       setResult(res);
+      addEntry({
+        type: "media-detection",
+        input: file.name,
+        result: res.result,
+        confidence: res.confidence,
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Detection failed. Is the API running?");
     } finally {

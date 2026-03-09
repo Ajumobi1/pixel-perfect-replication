@@ -4,8 +4,10 @@ import { Wand2, Loader2, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { humanizeText, isDemoMode, type HumanizeResult } from "@/lib/api";
+import { useHistory } from "@/components/HistoryContext";
 
 const TextHumanizer = () => {
+  const { addEntry } = useHistory();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<HumanizeResult | null>(null);
@@ -20,6 +22,12 @@ const TextHumanizer = () => {
     try {
       const res = await humanizeText(text);
       setResult(res);
+      addEntry({
+        type: "humanize",
+        input: text.slice(0, 200),
+        result: `${res.words_used} words humanized`,
+        humanized: res.humanized.slice(0, 200),
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Humanize failed. Is the API running?");
     } finally {

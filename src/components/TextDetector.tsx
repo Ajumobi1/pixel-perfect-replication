@@ -4,8 +4,10 @@ import { ScanSearch, Loader2, AlertTriangle, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { detectText, isDemoMode, type DetectionResult } from "@/lib/api";
+import { useHistory } from "@/components/HistoryContext";
 
 const TextDetector = () => {
+  const { addEntry } = useHistory();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<DetectionResult | null>(null);
@@ -19,6 +21,12 @@ const TextDetector = () => {
     try {
       const res = await detectText(text);
       setResult(res);
+      addEntry({
+        type: "text-detection",
+        input: text.slice(0, 200),
+        result: res.result,
+        confidence: res.confidence,
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Detection failed. Is the API running?");
     } finally {
