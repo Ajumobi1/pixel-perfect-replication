@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['JetBrains Mono', 'monospace'],
-        body: ['Inter', 'sans-serif'],
+        body: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -52,6 +52,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         glow: "hsl(var(--glow))",
+        "glow-secondary": "hsl(var(--glow-secondary))",
         warning: "hsl(var(--warning))",
         success: "hsl(var(--success))",
         sidebar: {
@@ -80,8 +81,8 @@ export default {
           to: { height: "0" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 5px hsl(174 72% 50% / 0.3)" },
-          "50%": { boxShadow: "0 0 20px hsl(174 72% 50% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 5px hsl(168 80% 48% / 0.3)" },
+          "50%": { boxShadow: "0 0 25px hsl(168 80% 48% / 0.5)" },
         },
       },
       animation: {

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ScanSearch, Loader2, AlertTriangle, CheckCircle } from "lucide-react";
+import { ScanSearch, Loader2, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { detectText, isDemoMode, type DetectionResult } from "@/lib/api";
 import { useHistory } from "@/components/HistoryContext";
+import ConfidenceBar from "@/components/ConfidenceBar";
 
 const TextDetector = () => {
   const { addEntry } = useHistory();
@@ -36,20 +37,22 @@ const TextDetector = () => {
 
   const isAI = result?.result?.toLowerCase().includes("ai");
   const wordCount = text.split(/\s+/).filter(Boolean).length;
+  const charCount = text.length;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      id="detect"
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="glass-hover glow-border rounded-xl p-6 md:p-8 group"
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="glass-hover gradient-border rounded-2xl p-6 md:p-8 group noise-overlay"
     >
       <div className="flex items-center gap-3 mb-6">
         <motion.div
           whileHover={{ rotate: 15, scale: 1.1 }}
           transition={{ type: "spring", stiffness: 300 }}
-          className="p-2.5 rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors"
+          className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors"
         >
           <ScanSearch className="w-5 h-5 text-primary" />
         </motion.div>
@@ -59,12 +62,25 @@ const TextDetector = () => {
         </div>
       </div>
 
-      <Textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Paste text here to analyze..."
-        className="min-h-[160px] bg-muted/50 border-border/50 text-foreground placeholder:text-muted-foreground resize-none mb-4 font-body focus:glow-border transition-shadow duration-300"
-      />
+      <div className="relative">
+        <Textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Paste text here to analyze..."
+          className="min-h-[180px] bg-muted/30 border-border/40 text-foreground placeholder:text-muted-foreground/50 resize-none mb-4 font-body focus:glow-border transition-shadow duration-300 rounded-xl"
+        />
+        {text.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute bottom-7 right-3 flex gap-2"
+          >
+            <span className="text-[10px] text-muted-foreground/40 font-display tabular-nums bg-background/80 backdrop-blur-sm px-1.5 py-0.5 rounded">
+              {charCount} chars
+            </span>
+          </motion.div>
+        )}
+      </div>
 
       <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground font-display tabular-nums">
@@ -73,7 +89,7 @@ const TextDetector = () => {
         <Button
           onClick={handleDetect}
           disabled={loading || !text.trim()}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 font-display hover-lift"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 font-display hover-lift group/btn"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -81,6 +97,7 @@ const TextDetector = () => {
             <ScanSearch className="w-4 h-4 mr-2" />
           )}
           Analyze
+          {!loading && <ArrowRight className="w-3.5 h-3.5 ml-1 opacity-0 -translate-x-1 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all" />}
         </Button>
       </div>
 
@@ -91,7 +108,7 @@ const TextDetector = () => {
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -5, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm"
+            className="mt-4 p-4 rounded-xl bg-destructive/10 border border-destructive/30 text-destructive text-sm"
           >
             {error}
           </motion.div>
@@ -101,11 +118,11 @@ const TextDetector = () => {
             initial={{ opacity: 0, y: 10, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -5, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 p-4 rounded-lg border"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 p-5 rounded-xl border"
             style={{
-              borderColor: isAI ? "hsl(var(--warning) / 0.4)" : "hsl(var(--success) / 0.4)",
-              backgroundColor: isAI ? "hsl(var(--warning) / 0.05)" : "hsl(var(--success) / 0.05)",
+              borderColor: isAI ? "hsl(var(--warning) / 0.3)" : "hsl(var(--success) / 0.3)",
+              backgroundColor: isAI ? "hsl(var(--warning) / 0.04)" : "hsl(var(--success) / 0.04)",
             }}
           >
             <div className="flex items-center gap-2">
@@ -121,17 +138,10 @@ const TextDetector = () => {
                 )}
               </motion.div>
               <span className="font-display font-bold text-foreground">{result.result}</span>
-              <motion.span
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="ml-auto text-sm text-muted-foreground font-display tabular-nums"
-              >
-                {result.confidence} confidence
-              </motion.span>
             </div>
+            <ConfidenceBar confidence={result.confidence} isWarning={!!isAI} />
             {isDemoMode() && (
-              <p className="mt-2 text-xs text-muted-foreground/70 italic border-t border-border/30 pt-2">
+              <p className="mt-3 text-xs text-muted-foreground/60 italic border-t border-border/20 pt-2">
                 ⚡ Demo result — connect a real API for accurate detection
               </p>
             )}

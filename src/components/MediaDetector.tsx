@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Upload, Loader2, AlertTriangle, CheckCircle, X } from "lucide-react";
+import { Shield, Upload, Loader2, AlertTriangle, CheckCircle, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { detectMedia, isDemoMode, type DetectionResult } from "@/lib/api";
 import { useHistory } from "@/components/HistoryContext";
+import ConfidenceBar from "@/components/ConfidenceBar";
 
 const ALLOWED = ["image/png", "image/jpeg", "image/jpg", "video/mp4", "video/quicktime", "video/x-msvideo", "video/webm"];
 
@@ -70,17 +71,18 @@ const MediaDetector = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      id="media"
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="glass-hover glow-border rounded-xl p-6 md:p-8 group"
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="glass-hover gradient-border rounded-2xl p-6 md:p-8 group noise-overlay"
     >
       <div className="flex items-center gap-3 mb-6">
         <motion.div
           whileHover={{ rotate: 15, scale: 1.1 }}
           transition={{ type: "spring", stiffness: 300 }}
-          className="p-2.5 rounded-lg bg-primary/10 group-hover:bg-primary/15 transition-colors"
+          className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/15 transition-colors"
         >
           <Shield className="w-5 h-5 text-primary" />
         </motion.div>
@@ -101,10 +103,10 @@ const MediaDetector = () => {
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
-            className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all duration-300 ${
+            className={`border-2 border-dashed rounded-xl p-14 text-center cursor-pointer transition-all duration-300 ${
               dragOver
-                ? "border-primary bg-primary/5 scale-[1.02]"
-                : "border-border/50 hover:border-primary/50 hover:bg-muted/30"
+                ? "border-primary bg-primary/5 scale-[1.01]"
+                : "border-border/40 hover:border-primary/40 hover:bg-muted/20"
             }`}
             onClick={() => {
               const input = document.createElement("input");
@@ -118,13 +120,14 @@ const MediaDetector = () => {
             }}
           >
             <motion.div
-              animate={dragOver ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
+              animate={dragOver ? { scale: 1.15, y: -8 } : { scale: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 300 }}
+              className="inline-flex p-4 rounded-2xl bg-muted/50 mb-4"
             >
-              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+              <Upload className="w-8 h-8 text-muted-foreground" />
             </motion.div>
-            <p className="text-sm text-muted-foreground">Drop an image or video here, or click to browse</p>
-            <p className="text-xs text-muted-foreground/60 mt-1">PNG, JPG, MP4, MOV, AVI, WebM · Max 50MB</p>
+            <p className="text-sm text-foreground font-medium">Drop an image or video here</p>
+            <p className="text-xs text-muted-foreground/50 mt-1">PNG, JPG, MP4, MOV, AVI, WebM · Max 50MB</p>
           </motion.div>
         ) : (
           <motion.div
@@ -135,14 +138,14 @@ const MediaDetector = () => {
             transition={{ duration: 0.3 }}
             className="space-y-4"
           >
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border/50">
+            <div className="flex items-center gap-3 p-4 rounded-xl bg-muted/30 border border-border/40">
               {preview && (
                 <motion.img
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   src={preview}
                   alt="Preview"
-                  className="w-16 h-16 object-cover rounded-md"
+                  className="w-20 h-20 object-cover rounded-lg"
                 />
               )}
               <div className="flex-1 min-w-0">
@@ -157,10 +160,11 @@ const MediaDetector = () => {
             <Button
               onClick={handleDetect}
               disabled={loading}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display hover-lift"
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display hover-lift group/btn"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Shield className="w-4 h-4 mr-2" />}
               Scan for Deepfakes
+              {!loading && <ArrowRight className="w-3.5 h-3.5 ml-1 opacity-0 -translate-x-1 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all" />}
             </Button>
           </motion.div>
         )}
@@ -173,7 +177,7 @@ const MediaDetector = () => {
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -5, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm"
+            className="mt-4 p-4 rounded-xl bg-destructive/10 border border-destructive/30 text-destructive text-sm"
           >
             {error}
           </motion.div>
@@ -183,11 +187,11 @@ const MediaDetector = () => {
             initial={{ opacity: 0, y: 10, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -5, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 p-4 rounded-lg border"
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-5 p-5 rounded-xl border"
             style={{
-              borderColor: isDeepfake ? "hsl(var(--warning) / 0.4)" : "hsl(var(--success) / 0.4)",
-              backgroundColor: isDeepfake ? "hsl(var(--warning) / 0.05)" : "hsl(var(--success) / 0.05)",
+              borderColor: isDeepfake ? "hsl(var(--warning) / 0.3)" : "hsl(var(--success) / 0.3)",
+              backgroundColor: isDeepfake ? "hsl(var(--warning) / 0.04)" : "hsl(var(--success) / 0.04)",
             }}
           >
             <div className="flex items-center gap-2">
@@ -203,17 +207,10 @@ const MediaDetector = () => {
                 )}
               </motion.div>
               <span className="font-display font-bold text-foreground">{result.result}</span>
-              <motion.span
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="ml-auto text-sm text-muted-foreground font-display tabular-nums"
-              >
-                {result.confidence} confidence
-              </motion.span>
             </div>
+            <ConfidenceBar confidence={result.confidence} isWarning={!!isDeepfake} />
             {isDemoMode() && (
-              <p className="mt-2 text-xs text-muted-foreground/70 italic border-t border-border/30 pt-2">
+              <p className="mt-3 text-xs text-muted-foreground/60 italic border-t border-border/20 pt-2">
                 ⚡ Demo result — connect a real API for accurate deepfake detection
               </p>
             )}
