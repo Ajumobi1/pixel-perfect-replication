@@ -22,6 +22,12 @@ const TextHumanizer = () => {
     try {
       const res = await humanizeText(text);
       setResult(res);
+      addEntry({
+        type: "humanize",
+        input: text.slice(0, 200),
+        result: `${res.words_used} words humanized`,
+        humanized: res.humanized.slice(0, 200),
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Humanize failed. Is the API running?");
     } finally {

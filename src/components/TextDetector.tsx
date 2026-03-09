@@ -21,6 +21,12 @@ const TextDetector = () => {
     try {
       const res = await detectText(text);
       setResult(res);
+      addEntry({
+        type: "text-detection",
+        input: text.slice(0, 200),
+        result: res.result,
+        confidence: res.confidence,
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Detection failed. Is the API running?");
     } finally {

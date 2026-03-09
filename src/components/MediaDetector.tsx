@@ -45,6 +45,12 @@ const MediaDetector = () => {
     try {
       const res = await detectMedia(file);
       setResult(res);
+      addEntry({
+        type: "media-detection",
+        input: file.name,
+        result: res.result,
+        confidence: res.confidence,
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Detection failed. Is the API running?");
     } finally {
