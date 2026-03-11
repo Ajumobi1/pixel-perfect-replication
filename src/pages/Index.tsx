@@ -40,6 +40,7 @@ const Index = () => {
           </div>
 
           <MediaDetector />
+          <VideoScanner />
 
           {/* Stats section */}
           <motion.div
