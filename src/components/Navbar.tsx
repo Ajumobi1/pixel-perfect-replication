@@ -46,8 +46,9 @@ const Navbar = () => {
         ))}
 
         <div className="h-4 w-px bg-border/50 hidden sm:block" />
-        <div className="hidden sm:block">
+        <div className="hidden sm:flex items-center gap-1">
           <ThemeToggle />
+          <UserMenu />
         </div>
 
         {/* Mobile hamburger */}
