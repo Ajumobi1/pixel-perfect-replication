@@ -1,12 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, ScanSearch, Wand2, Image, Menu, X } from "lucide-react";
+import { Shield, ScanSearch, Wand2, Image, Film, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import UserMenu from "@/components/UserMenu";
 import { useState } from "react";
 
 const navItems = [
   { icon: ScanSearch, label: "Detect", href: "#detect" },
   { icon: Wand2, label: "Humanize", href: "#humanize" },
   { icon: Image, label: "Media", href: "#media" },
+  { icon: Film, label: "Video", href: "#video-scanner" },
 ];
 
 const Navbar = () => {
@@ -44,8 +46,9 @@ const Navbar = () => {
         ))}
 
         <div className="h-4 w-px bg-border/50 hidden sm:block" />
-        <div className="hidden sm:block">
+        <div className="hidden sm:flex items-center gap-1">
           <ThemeToggle />
+          <UserMenu />
         </div>
 
         {/* Mobile hamburger */}
@@ -79,8 +82,9 @@ const Navbar = () => {
               </button>
             ))}
             <div className="h-px bg-border/50 my-1" />
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-2">
               <ThemeToggle />
+              <UserMenu />
             </div>
           </motion.div>
         )}
