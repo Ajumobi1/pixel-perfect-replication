@@ -82,8 +82,9 @@ const Navbar = () => {
               </button>
             ))}
             <div className="h-px bg-border/50 my-1" />
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-2">
               <ThemeToggle />
+              <UserMenu />
             </div>
           </motion.div>
         )}
