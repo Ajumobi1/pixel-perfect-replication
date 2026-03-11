@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import TextDetector from "@/components/TextDetector";
 import TextHumanizer from "@/components/TextHumanizer";
 import MediaDetector from "@/components/MediaDetector";
+import VideoScanner from "@/components/VideoScanner";
 import SessionHistory from "@/components/SessionHistory";
 import StatsCounter from "@/components/StatsCounter";
 import ApiConfig from "@/components/ApiConfig";
