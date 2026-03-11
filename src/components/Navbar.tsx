@@ -1,12 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, ScanSearch, Wand2, Image, Menu, X } from "lucide-react";
+import { Shield, ScanSearch, Wand2, Image, Film, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import UserMenu from "@/components/UserMenu";
 import { useState } from "react";
 
 const navItems = [
   { icon: ScanSearch, label: "Detect", href: "#detect" },
   { icon: Wand2, label: "Humanize", href: "#humanize" },
   { icon: Image, label: "Media", href: "#media" },
+  { icon: Film, label: "Video", href: "#video-scanner" },
 ];
 
 const Navbar = () => {
