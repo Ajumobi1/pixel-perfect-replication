@@ -53,6 +53,14 @@ const Navbar = () => {
           </button>
         ))}
 
+        <button
+          onClick={() => { navigate("/devices"); setMobileOpen(false); }}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300 text-xs font-display"
+        >
+          <Smartphone className="w-3.5 h-3.5" />
+          <span>Devices</span>
+        </button>
+
         <div className="h-4 w-px bg-border/50 hidden sm:block" />
         <div className="hidden sm:flex items-center gap-1">
           <ThemeToggle />
