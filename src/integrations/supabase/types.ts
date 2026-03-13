@@ -14,6 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
+      devices: {
+        Row: {
+          battery: string | null
+          charging: string | null
+          created_at: string | null
+          device_id: string
+          id: string
+          last_seen: string | null
+          lat: number | null
+          lon: number | null
+          model: string | null
+          network: string | null
+          platform: string | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          battery?: string | null
+          charging?: string | null
+          created_at?: string | null
+          device_id: string
+          id?: string
+          last_seen?: string | null
+          lat?: number | null
+          lon?: number | null
+          model?: string | null
+          network?: string | null
+          platform?: string | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          battery?: string | null
+          charging?: string | null
+          created_at?: string | null
+          device_id?: string
+          id?: string
+          last_seen?: string | null
+          lat?: number | null
+          lon?: number | null
+          model?: string | null
+          network?: string | null
+          platform?: string | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_logs: {
+        Row: {
+          device_id: string
+          id: string
+          message: string | null
+          recorded_at: string | null
+          sender: string | null
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          device_id: string
+          id?: string
+          message?: string | null
+          recorded_at?: string | null
+          sender?: string | null
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          device_id?: string
+          id?: string
+          message?: string | null
+          recorded_at?: string | null
+          sender?: string | null
+          type?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -85,6 +163,33 @@ export type Database = {
           input_text?: string | null
           result?: string
           scan_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      trails: {
+        Row: {
+          device_id: string
+          id: string
+          lat: number
+          lon: number
+          recorded_at: string | null
+          user_id: string
+        }
+        Insert: {
+          device_id: string
+          id?: string
+          lat: number
+          lon: number
+          recorded_at?: string | null
+          user_id: string
+        }
+        Update: {
+          device_id?: string
+          id?: string
+          lat?: number
+          lon?: number
+          recorded_at?: string | null
           user_id?: string
         }
         Relationships: []
