@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, ScanSearch, Wand2, Image, Film, Menu, X } from "lucide-react";
+import { Shield, ScanSearch, Wand2, Image, Film, Menu, X, Smartphone } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import UserMenu from "@/components/UserMenu";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: ScanSearch, label: "Detect", href: "#detect" },
@@ -13,9 +14,16 @@ const navItems = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
+    } else {
+      document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     setMobileOpen(false);
   };
 
@@ -44,6 +52,14 @@ const Navbar = () => {
             <span>{item.label}</span>
           </button>
         ))}
+
+        <button
+          onClick={() => { navigate("/devices"); setMobileOpen(false); }}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300 text-xs font-display"
+        >
+          <Smartphone className="w-3.5 h-3.5" />
+          <span>Devices</span>
+        </button>
 
         <div className="h-4 w-px bg-border/50 hidden sm:block" />
         <div className="hidden sm:flex items-center gap-1">
@@ -81,6 +97,13 @@ const Navbar = () => {
                 <span>{item.label}</span>
               </button>
             ))}
+            <button
+              onClick={() => { navigate("/devices"); setMobileOpen(false); }}
+              className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300 text-xs font-display"
+            >
+              <Smartphone className="w-4 h-4" />
+              <span>Devices</span>
+            </button>
             <div className="h-px bg-border/50 my-1" />
             <div className="flex justify-center gap-2">
               <ThemeToggle />
